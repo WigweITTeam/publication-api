@@ -1,0 +1,27 @@
+﻿version: '3.8'
+
+services:
+  publicationapi:
+    build:
+      context: .
+    ports: 
+      - "8080:8080" 
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__PublicationApiContext=Server=sqlserver;Database=PublicationDb;User=sa;Password=WU-2025,dfh;TrustServerCertificate=True;Encrypt=False;
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "WU-2025,dfh"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
+   
